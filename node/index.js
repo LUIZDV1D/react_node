@@ -42,6 +42,36 @@ app.get('/dados', (req, res) => {
     
 });
 
+app.get('/dados/add', (req, res) => {
+    const { gasto, valor } = req.query;
+    
+    const INSERT_INTO_DADOS = 
+    `INSERT INTO dados(gasto, valor, paid) VALUES ('${gasto}', '${valor}' , true)`;
+
+    connection.query(INSERT_INTO_DADOS, (err, results) => {
+        if (err) {
+            return res.send(err)
+        } else {
+            return res.send('Dado adicionado com sucesso!')
+        }
+    })
+})
+
+app.get('/dados/delete', (req, res) => {
+
+    const { id } = req.query;
+    
+    const DELETE_DADOS = `DELETE FROM dados WHERE id = '${id}'`;
+
+    connection.query(DELETE_DADOS, (err, results) => {
+        if (err) {
+            return res.send(err)
+        } else {
+            return res.send(`ID ${id} deletado com sucesso!`);
+        }
+    })
+})
+
 app.listen(4000, () => {
     console.log('Dados server listening on port 4000');
 });
